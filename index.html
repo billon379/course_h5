@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=320,maximum-scale=1.3,user-scalable=no">
+		<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/common.css" />
+		<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="js/jquery.tmpl.min.js"></script>
+		<script src="js/const.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<ul class="list-group" id="course_item">
+		</div>
+	</body>
+
+	<!-- 模版 -->
+	<script type="text/x-jquery-tmpl" id="tmpl_course_item">
+		<li class="list-group-item">
+			<a href="chapter.html?courseCode=${cwareID}">${rowNum}.${mobileTitle}（${num}）</a>
+		</li>
+	</script>
+
+	<script>
+		/**
+		 * 初始化
+		 */
+		$(function() {
+			getCourse();
+		});
+	</script>
+
+	<script>
+		/**
+		 * 获取课程
+		 */
+		function getCourse() {
+			$.ajax({
+				type: "get",
+				url: CONF.HOST_SPIDER + "/course/class/",
+				async: true,
+				success: function(data) {
+					$("#course_item").html($("#tmpl_course_item").tmpl(data));
+				}
+			});
+		}
+	</script>
+
+</html>

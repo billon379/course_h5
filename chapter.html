@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=320,maximum-scale=1.3,user-scalable=no">
+		<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/common.css" />
+		<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="js/jquery.tmpl.min.js"></script>
+		<script src="js/utils.js"></script>
+		<script src="js/const.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<ul class="list-group" id="chapter_item">
+		</div>
+	</body>
+
+	<!-- 模版 -->
+	<script type="text/x-jquery-tmpl" id="tmpl_chapter_item">
+		<li class="list-group-item">
+			<a href="chapter_detail.html?courseCode=${cwareId}&id=${id}">${rowNum}.${chapterTitle}</a>
+		</li>
+	</script>
+
+	<script>
+		var courseCode;
+		$(function() {
+			//获取课程编码
+			courseCode = parseParamFromUrl(window.location.href, "courseCode");
+			getChapter(courseCode);
+		});
+	</script>
+
+	<script>
+		/**
+		 * 获取章节列表
+		 * @param courseCode 课程编码
+		 */
+		function getChapter(courseCode) {
+			$.ajax({
+				type: "get",
+				url: CONF.HOST_SPIDER + "/course/" + courseCode + "/chapter/",
+				async: true,
+				success: function(data) {
+					$("#chapter_item").html($("#tmpl_chapter_item").tmpl(data));
+				}
+			});
+		}
+	</script>
+
+</html>
